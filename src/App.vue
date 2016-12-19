@@ -2,8 +2,8 @@
 	<div id="app">
 
 		<transition name="fade">
-			<div class="title" v-show="question > 0 && question < questions.length">
-				<h1>Vraag {{question}}</h1>
+			<div class="title" v-show="questions[question] && questions[question].title">
+				<h1 v-if="questions[question] && questions[question].title">{{questions[question].title}}</h1>
 			</div>
 		</transition>
 		<div class="app-section questions" >
@@ -106,9 +106,30 @@ export default {
 			],
 			questions: [
 				{img: 'questions/quiz.jpg'},
-				{img: 'questions/1.jpg'},
-				{img: 'questions/2.jpg'},
-				{img: 'questions/3.jpg'}
+				{img: 'questions/01.jpg', title: 'Vraag 1, Januari 2016'},
+				{img: 'questions/02.jpg', title: 'Vraag 2, Januari 2016'},
+				{img: 'questions/03.jpg', title: 'Vraag 3, Februari 2016'},
+				{img: 'questions/04.jpg', title: 'Vraag 4, Februari 2016'},
+				{img: 'questions/05.jpg', title: 'Vraag 5, Maart 2016'},
+				{img: 'questions/06.jpg', title: 'Vraag 6, Maart 2016'},
+				{img: 'questions/07.jpg', title: 'Vraag 7, April 2016'},
+				{img: 'questions/08.jpg', title: 'Vraag 8, April 2016'},
+				{img: 'questions/09.jpg', title: 'Vraag 9, Mei 2016'},
+				{img: 'questions/10.jpg', title: 'Vraag 10, Mei 2016'},
+				{img: 'questions/11.jpg', title: 'Vraag 11, Juni 2016'},
+				{img: 'questions/12.jpg', title: 'Vraag 12, Juni 2016'},
+				{img: 'questions/13.jpg', title: 'Vraag 13, Juli 2016'},
+				{img: 'questions/14.jpg', title: 'Vraag 14, Juli 2016'},
+				{img: 'questions/15.jpg', title: 'Vraag 15, Augustus 2016'},
+				{img: 'questions/16.jpg', title: 'Vraag 16, Augustus 2016'},
+				{img: 'questions/17.jpg', title: 'Vraag 17, September 2016'},
+				{img: 'questions/18.jpg', title: 'Vraag 18, September 2016'},
+				{img: 'questions/19.jpg', title: 'Vraag 19, Oktober 2016'},
+				{img: 'questions/20.jpg', title: 'Vraag 20, Oktober 2016'},
+				{img: 'questions/21.jpg', title: 'Vraag 21, November 2016'},
+				{img: 'questions/22.jpg', title: 'Vraag 22, November 2016'},
+				{img: 'questions/23.jpg', title: 'Vraag 23, December 2016'},
+				{img: 'questions/24.jpg', title: 'Vraag 24, December 2016'},
 			]
 		}
 	}, 
@@ -159,6 +180,8 @@ export default {
 			audio.play();
 		},
 		keyPressed(e) {
+
+			console.log(e);
 
 			// Select teams
 			this.teams.find((team) => {
