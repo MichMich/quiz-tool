@@ -14,7 +14,7 @@
 			<transition name="drop">
 
 				<question 	v-show="question >= questions.length && winners.length === 1" 
-							img="questions/fireworks.jpg"
+							img="questions/winner.jpg"
 							:header="winners[0].name"
 							subheader="GEFELICITEERD!">
 							
