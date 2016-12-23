@@ -1,11 +1,10 @@
 <template>
 	<div id="app">
 
-		<transition name="fade">
-			<div class="title" v-show="questions[question] && questions[question].title">
-				<h1 v-if="questions[question] && questions[question].title">{{questions[question].title}}</h1>
-			</div>
-		</transition>
+		<div class="title" v-show="questions[question] && questions[question].title">
+			<h1 v-if="questions[question] && questions[question].title">{{questions[question].title}}</h1>
+		</div>
+
 		<div class="app-section questions" >
 			<transition name="move" v-for="(q, index) in questions">
 				<question v-show="index == question" :img="q.img" :header="q.header" :subheader="q.subheader"></question>
@@ -59,6 +58,7 @@ export default {
 			this.teams.forEach((team) => {
 				this.$set(team, 'leader',(team.score === max));
 				this.$set(team, 'active',(team === this.activeTeam));
+				this.$set(team, 'scale', (max > 0) ? (team.score / max * 0.25) + 0.75 : 1);
 			});
 
 			return this.teams;
@@ -135,6 +135,9 @@ export default {
 	}, 
 	methods: {
 		answered(team, correct) {
+			if (!team) {
+				return;
+			}
 			if (correct) {
 				this.$set(team, 'score', team.score + this.points.correct);
 				this.playSound('correct.mp3');
@@ -163,7 +166,7 @@ export default {
 			this.playSound('next-question.mp3');
 			this.runStateEffects();
 
-			this.eactiveTeam = false;
+			this.activeTeam = false;
 			this.teams.forEach((team) => {
 				team.answered = null;
 			});
