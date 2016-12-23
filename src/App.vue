@@ -130,6 +130,7 @@ export default {
 				{img: 'questions/22.jpg', title: 'Vraag 22, November 2016'},
 				{img: 'questions/23.jpg', title: 'Vraag 23, December 2016'},
 				{img: 'questions/24.jpg', title: 'Vraag 24, December 2016'},
+				{img: 'questions/25.jpg', title: 'Logo\'s!'},
 			]
 		}
 	}, 
