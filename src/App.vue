@@ -12,19 +12,19 @@
 
 			<transition name="drop">
 
-				<question 	v-show="question >= questions.length && winners.length === 1" 
+				<question 	v-show="question >= questions.length && winners.length === 1"
 							img="questions/winner.jpg"
 							:header="winners[0].name"
 							subheader="GEFELICITEERD!">
-							
+
 				</question>
 
 			</transition>
 			<transition name="drop">
-				<question 	v-show="question >= questions.length && winners.length > 1" 
+				<question 	v-show="question >= questions.length && winners.length > 1"
 							img="questions/final-question.jpg"
 							header="Benaderingsvraag!">
-							
+
 				</question>
 			</transition>
 		</div>
@@ -67,6 +67,11 @@ export default {
 			return this.teamResults.filter((team) => {
 				return team.leader;
 			})
+		},
+		answeredCorrect() {
+			return this.teams.filter((team) => {
+				return team.answered === true;
+			}).length > 0;
 		}
 	},
 	data () {
@@ -79,29 +84,29 @@ export default {
 			activeTeam: false,
 			teams: [
 				{
-					shortcut: '1',
+					shortcut: 'A',
 					name: 'Team A',
 					score: 0,
 					answered: null
 
 				},
 				{
-					shortcut: '2',
+					shortcut: 'B',
 					name: 'Team B',
 					score: 0,
 					answered: null
 				},
 				{
-					shortcut: '3',
+					shortcut: 'C',
 					name: 'Team C',
 					score: 0,
-					answered: null				
+					answered: null
 				},
 				{
-					shortcut: '4',
+					shortcut: 'D',
 					name: 'Team D',
 					score: 0,
-					answered: null				
+					answered: null
 				}
 			],
 			questions: [
@@ -133,7 +138,7 @@ export default {
 				{img: 'questions/25.jpg', title: 'Logo\'s!'},
 			]
 		}
-	}, 
+	},
 	methods: {
 		answered(team, correct) {
 			if (!team) {
@@ -184,47 +189,51 @@ export default {
 			audio.play();
 		},
 		keyPressed(e) {
-
-			console.log(e);
+			var key = String.fromCharCode(e.keyCode);
 
 			// Select teams
 			this.teams.find((team) => {
-				if (team.shortcut.toLowerCase() == e.key.toLowerCase()) {
+				if (team.shortcut.toLowerCase() == key.toLowerCase() && !this.activeTeam && team.answered === null && !this.answeredCorrect) {
+					this.playSound('answer.mp3');
 					this.activeTeam = team;
 					return true;
 				}
 			});
 
 			// Answer Given
-			if (e.key.toLowerCase() === 'g') {
-				this.answered(this.activeTeam, true); 
+			if (key.toLowerCase() === 'g') {
+				this.answered(this.activeTeam, true);
 			}
 
-			if (e.key.toLowerCase() === 'f') {
-				this.answered(this.activeTeam, false); 
+			if (key.toLowerCase() === 'f') {
+				this.answered(this.activeTeam, false);
 			}
 
 			// Next or Previous Question
-			if (e.key === '.' || e.key === '>') {
+			if (key === '.' || key === '>') {
 				this.changeQuestion(true);
 			}
 
-			if (e.key === ',' || e.key === '<') {
+			if (key === ',' || key === '<') {
 				this.changeQuestion(false);
 			}
 
 			// Reset selected Team
-			if (e.key.toLowerCase() === 'x') {
+			if (key.toLowerCase() === 'x') {
 				this.activeTeam = false;
 			}
-		
+
 			// Manually adjust score
-			if (e.key === '-' || e.key === '_') {
-				this.$set(this.activeTeam, 'score', this.activeTeam.score - 1);
+			if (key === '-' || key === '_') {
+				if (this.activeTeam) {
+					this.$set(this.activeTeam, 'score', this.activeTeam.score - 1);
+				}
 			}
-			
-			if (e.key === '+' || e.key === '=') {
-				this.$set(this.activeTeam, 'score', this.activeTeam.score + 1);
+
+			if (key === '+' || key === '=') {
+				if (this.activeTeam) {
+					this.$set(this.activeTeam, 'score', this.activeTeam.score + 1);
+				}
 			}
 
 
@@ -248,7 +257,7 @@ export default {
 		padding: 0;
 		margin: 0;
 	}
-	
+
 	html,
 	body {
 		height: 100%;
@@ -258,7 +267,7 @@ export default {
 		background-size: cover;
 		overflow: hidden;
 	}
-	
+
 	#app {
 		height: 100%;
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -268,7 +277,7 @@ export default {
 		display: flex;
 		flex-direction: column;
 	}
-	
+
 	.title {
 		z-index: 1000;
 		position: absolute;
@@ -287,7 +296,7 @@ export default {
 			color: #999;
 		}
 	}
-	
+
 	.questions {
 		flex: 1;
 		position: relative;
@@ -318,7 +327,7 @@ export default {
 			}
 		}
 	}
-	
+
 	.scores {
 		display: flex;
 		flex-direction: row;
@@ -384,13 +393,13 @@ export default {
 		transform: translateX(-110%) rotate(-10deg);
 	}
 	.move-leave-active {
-		transform: translateX(110%) rotate(10deg);; 
+		transform: translateX(110%) rotate(10deg);;
 	}
 
 	.drop-enter-active, .drop-leave-active {
 		transition: all 1s
 	}
 	.drop-enter, .drop-leave-active {
-		transform: translateY(-150%); 
+		transform: translateY(-150%);
 	}
 </style>
