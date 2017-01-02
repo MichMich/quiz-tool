@@ -18,14 +18,16 @@ npm run build
 For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 
-## Controll the app.
+## Control the app.
 The app is controlled by keybord (make sure your browser window is focused):
 
 `>` next question
 
 `<` prev question
 
-`1`, `2`, `3`, `4`, select team to answer
+`a`, `b`, `c`, `d`, select team to answer
+
+`x` cancel team selection
 
 `g` correct answer given (after selecting team)
 
